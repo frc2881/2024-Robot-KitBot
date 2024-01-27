@@ -48,11 +48,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Set the default command for the drivetrain to drive using the joysticks
     m_drivetrain.setDefaultCommand(
-        new RunCommand(
-            () ->
-                m_drivetrain.arcadeDrive(
-                    -m_driverController.getLeftY(), -m_driverController.getRightX()),
-            m_drivetrain));
+      m_drivetrain.arcadeDriveCommand(m_driverController)); 
 
     /*Create an inline sequence to run when the operator presses and holds the A (green) button. Run the PrepareLaunch
      * command for 1 seconds and then run the LaunchNote command */

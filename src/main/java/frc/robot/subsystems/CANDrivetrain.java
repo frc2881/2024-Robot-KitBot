@@ -9,7 +9,10 @@ import static frc.robot.Constants.DrivetrainConstants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /* This class declares the subsystem for the robot drivetrain if controllers are connected via CAN. Make sure to go to
  * RobotContainer and uncomment the line declaring this subsystem and comment the line for PWMDrivetrain.
@@ -50,6 +53,11 @@ public class CANDrivetrain extends SubsystemBase {
     // Put the front motors into the differential drive object. This will control all 4 motors with
     // the rears set to follow the fronts
     m_drivetrain = new DifferentialDrive(leftFront, rightFront);
+  }
+  public Command arcadeDriveCommand(CommandXboxController controller) {
+    return Commands.run(
+      () -> arcadeDrive(
+                    -controller.getLeftY(), -controller.getRightX()), this);
   }
 
   /*Method to control the drivetrain using arcade drive. Arcade drive takes a speed in the X (forward/back) direction
