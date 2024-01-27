@@ -9,6 +9,7 @@ import static frc.robot.Constants.LauncherConstants.*;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CANLauncher extends SubsystemBase {
@@ -46,6 +47,14 @@ public class CANLauncher extends SubsystemBase {
         });
   }
 
+  public Command getLaunchCommand() {
+    return Commands.run(() -> setLaunchWheel(kLauncherSpeed))
+                    .withTimeout(kLauncherDelay)
+                    .andThen(() -> setFeedWheel(kLaunchFeederSpeed))
+                    .withTimeout(kLauncherDelay)
+                    .finallyDo(() -> stop()); 
+  }
+  
   // An accessor method to set the speed (technically the output percentage) of the launch wheel
   public void setLaunchWheel(double speed) {
     m_launchWheel.set(speed);
