@@ -48,11 +48,11 @@ public class CANLauncher extends SubsystemBase {
   }
 
   public Command getLaunchCommand() {
-    return Commands.run(() -> setLaunchWheel(kLauncherSpeed))
-                    .withTimeout(kLauncherDelay)
-                    .andThen(() -> setFeedWheel(kLaunchFeederSpeed))
-                    .withTimeout(kLauncherDelay)
-                    .finallyDo(() -> stop()); 
+    return this.runOnce(() -> setLaunchWheel(kLauncherSpeed))
+      .andThen(Commands.waitSeconds(kLauncherDelay))
+      .andThen(() -> setFeedWheel(kLaunchFeederSpeed))
+      .andThen(Commands.waitSeconds(kLauncherDelay))
+      .finallyDo(() -> stop()); 
   }
   
   // An accessor method to set the speed (technically the output percentage) of the launch wheel
