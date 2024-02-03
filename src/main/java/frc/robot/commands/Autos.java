@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.CANDrivetrain;
 
 public final class Autos {
@@ -17,9 +17,9 @@ public final class Autos {
      * with the .withTimeout(1) decorator to timeout after 1 second, and use the .andThen decorator
      * to stop the drivetrain after the first command times out
      */
-    return new RunCommand(() -> drivetrain.arcadeDrive(-.5, 0), drivetrain)
+    return Commands.run(() -> drivetrain.arcadeDrive(-.5, 0), drivetrain)
         .withTimeout(1)
-        .andThen(new RunCommand(() -> drivetrain.arcadeDrive(0, 0), drivetrain));
+        .andThen(Commands.run(() -> drivetrain.arcadeDrive(0, 0), drivetrain));
   }
 
   private Autos() {
