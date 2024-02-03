@@ -7,7 +7,12 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -25,6 +30,9 @@ public class CANDrivetrain extends SubsystemBase {
   /*Class member variables. These variables represent things the class needs to keep track of and use between
   different method calls. */
   DifferentialDrive m_drivetrain;
+  RelativeEncoder m_leftEncoder; 
+  RelativeEncoder m_rightEncoder; 
+  DifferentialDriveKinematics m_kinematics; 
 
   /*Constructor. This method is called when an instance of the class is created. This should generally be used to set up
    * member variables and perform any configuration or set up necessary on hardware.
@@ -53,7 +61,26 @@ public class CANDrivetrain extends SubsystemBase {
     // Put the front motors into the differential drive object. This will control all 4 motors with
     // the rears set to follow the fronts
     m_drivetrain = new DifferentialDrive(leftFront, rightFront);
+    m_leftEncoder = leftFront.getEncoder(); 
+    m_leftEncoder.setPositionConversionFactor(kDistanceFactor); 
+    m_leftEncoder.setVelocityConversionFactor(kVelocityFactor); 
+    m_kinematics = new DifferentialDriveKinematics(kDistanceBetweenWheels); 
+    m_rightEncoder = rightFront.getEncoder(); 
+    m_rightEncoder.setPositionConversionFactor(kDistanceFactor); 
+    m_rightEncoder.setVelocityConversionFactor(kVelocityFactor); 
   }
+
+  /*Resets the distance travelled to 0. */
+  public void resetEncoder() {
+    m_leftEncoder.setPosition(0); 
+    m_rightEncoder.setPosition(0); 
+  }
+
+  /*Returns the distance traveled by the robot from 0. */
+  public double getDistance() {
+    return m_leftEncoder.getPosition(); 
+  }
+
   public Command arcadeDriveCommand(CommandXboxController controller) {
     return Commands.run(
       () -> arcadeDrive(

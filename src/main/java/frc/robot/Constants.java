@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.*;
+import static edu.wpi.first.units.Units.*;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +15,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final double kUpdateInterval = 1.0 / 50;
   public static class OperatorConstants {
     // Port numbers for driver and operator gamepads. These correspond with the numbers on the USB
     // tab of the DriverStation
@@ -29,6 +32,10 @@ public final class Constants {
 
     // Current limit for drivetrain motors
     public static final int kCurrentLimit = 60;
+
+    public static final double kDistanceFactor = 1.0; //TODO: must update the distance factor based on calibration
+    public static final Measure<Distance> kDistanceBetweenWheels = Inches.of(6); //TODO: must update the distance once measured
+    public static final double kVelocityFactor = 1.0; //TODO: must configure the velocity conversion factor
   }
 
   public static class LauncherConstants {
