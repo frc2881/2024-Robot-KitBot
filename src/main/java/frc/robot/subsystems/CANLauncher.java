@@ -20,6 +20,8 @@ public class CANLauncher extends SubsystemBase {
   public CANLauncher() {
     m_launchWheel = new CANSparkMax(kLauncherID, MotorType.kBrushless);
     m_feedWheel = new CANSparkMax(kFeederID, MotorType.kBrushless);
+    m_launchWheel.setInverted(true);
+    m_feedWheel.setInverted(true);
 
     m_launchWheel.setSmartCurrentLimit(kLauncherCurrentLimit);
     m_feedWheel.setSmartCurrentLimit(kFeedCurrentLimit);
