@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -84,7 +85,7 @@ public class CANDrivetrain extends SubsystemBase {
   public Command arcadeDriveCommand(CommandXboxController controller) {
     return Commands.run(
       () -> arcadeDrive(
-                    -controller.getLeftY(), -controller.getRightX()), this);
+                    -MathUtil.applyDeadband(controller.getLeftY(), 0.1), -MathUtil.applyDeadband(controller.getRightX(), 0.1)), this);
   }
 
   /*Method to control the drivetrain using arcade drive. Arcade drive takes a speed in the X (forward/back) direction
